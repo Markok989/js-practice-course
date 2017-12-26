@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Our first Mocha Test</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.1.0/mocha.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="mocha"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.1.0/mocha.js"></script>
+    <script src="http://chaijs.com/chai.js"></script>
+    <script>
+
+        // This sets up mocha and makes the describe function available to us
+        mocha.setup('bdd');
+
+        // This makes the expect function available to us
+        var expect = chai.expect;
+
+        var earth = {
+            isRound: true,
+            numberFromSun: 3,
+            density: 5.51
+        };
+
+        // test
+
+        describe("Earth", function () {
+            it("is round", function () {
+                expect(earth.isRound).to.equal(true);
+            });
+
+            it("is the third planet from the sun", function () {
+                expect(earth.numberFromSun).to.equal(3);
+            });
+
+            it("is the densest of all the planets", function () {
+                expect(earth.density).to.be.at.least(5.51);
+            });
+        });
+
+        // checks to be sure no variables are leaked to the global namespace during execution of the tests
+        mocha.checkLeaks();
+
+        // runs the tests!
+        mocha.run();
+
+    </script>
+</body>
+
+</html>
