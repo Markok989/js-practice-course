@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        ///////////////////////////////////////////////
+
+        /*
+        var thing = this;
+        thing; // window
+
+        function outer() {
+            return this;
+        }
+
+        outer(); // window
+        */
+
+        /////////////////////////////////////////////
+
+        /*
+                console.log(this); // window
+        
+                function whatIsThis() {
+                    return this
+                }
+        
+                function variableInThis() {
+                    // since the value of this is the window,
+                    // all we are doing here is creating a global variable
+                    this.person = "Elie"
+                }
+        
+                console.log(person); // Elie
+        
+                whatIsThis(); // window
+        */
+
+        //////////////////////////////////////////////////
+
+        "use strict"
+
+        function outer() {
+            return this;
+        }
+
+        outer(); // undefined
+
+        function info() {
+            this.data = "something";
+        }
+        info()
+        // Uncaught TypeError: Cannot set property 'data' of undefined
+        // this is happening since `this` is being set to undefined
+        // and we can not access properties on undefined!
+    </script>
+</body>
+
+</html>

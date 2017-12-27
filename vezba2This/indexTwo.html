@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //////////////////////////////////////////////////
+        /*
+                var friend = {
+                    firstName="Ash",
+                    sayHi: function () {
+                        return this.firstName + " say hello!!!";
+                    }
+                }
+        
+                // the keyword this will refer to friend when we invoke sayHi:
+                // Ash says hello!
+                friend.sayHi();
+        
+                var dog = {
+                    name: "Whiskey",
+                    sleep: function () {
+                        return this.name + " is sleeping: zzzzz...."
+                    }
+                }
+        
+                dog.sleep(); // Whiskey is sleeping: zzzzz....
+        
+                var nasted = {
+                    number: 1,
+                    anotherObjec: {
+                        anotherNumber: 2,
+                        whileIsThis: function () {
+                            return this;
+                        }
+                    }
+                }
+        
+                nested.anotherObject.whatIsThis(); // Object {anotherNumber: 2}
+        
+                //////////////////////////////////////////////////
+        
+        
+                var person = {
+                    firstName: "Elie",
+                    saySomething: function () {
+                        return "Hi " + this.firstName
+                    },
+                    determineContext: function () {
+                        return this === person
+                    }
+                }
+        
+                person.saySomething(); // "Hi Elie"
+                person.determineContext(); // true
+        */
+
+        //////////////////////////////////////////////////
+
+        var person = {
+            firstName="Filip",
+            sayHI: function () {
+                return "HI " + this.firstName;
+            },
+            determineContext: function () {
+                return this === person
+            },
+            dog: {
+                seyHello: function () {
+                    return "Hello! " + this.firstName;
+                },
+                determineContext: function () {
+                    return this === person
+                },
+            }
+        }
+
+        person.sayHI(); // "HI Filip"
+        person.determineContext(); // true
+
+
+        person.dog.seyHello(); // Hello undefined
+        person.dog.determineContext(); // falseF
+
+        //////////////////////////////////////////////////
+    </script>
+</body>
+
+</html>
