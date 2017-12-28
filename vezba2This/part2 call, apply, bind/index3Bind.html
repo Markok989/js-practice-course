@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bind</title>
+</head>
+
+<body>
+
+    <script>
+
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                function add(a, b) {
+                    return a + b;
+                }
+        
+                var partialAdd = add.bind(this, 2);
+                partialAdd(4);
+        */
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                var colt = {
+                    firstName: "Colt",
+                    sayHi: function () {
+                        return "Hi " + this.firstName
+                    },
+                    addNumbers: function (a, b, c, d) {
+                        return this.firstName + " just calculated " + (a, b, c, d);
+                    }
+                }
+        
+                var elie = {
+                    firstName: "Elie"
+                }
+        
+                var elieCalc = colt.addNumbers.bind(elie, 1, 2, 3, 4); // function
+                elieCalc(); // "Elie just calculated 4"
+        
+                // Watch bind - we do not need to know all the arguments up front
+                var elieCalc = colt.addNumbers.bind(elie, 1, 2); // function
+                elieCalc(3, 4); // "Elie just calculated 4"
+        */
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                setTimeout(function () {
+                    console.log("Hello World");
+                }, 20000);
+        
+                var awsome = "yup!";
+        */
+        ///////////////////////////////////////////////////////////////////////////////
+
+        function bind(fn, thisArg) {
+            var outerArgs = Array.prototype.slice.call(arguments)
+            // we don't want the fn and thisArg values!
+            // Let's copy from the 2nd index of the arguments array to the end!
+            var argsWeWant = outerArgs.slice(2)
+            return function () {
+                return fn.apply(thisArg, argsWeWant.concat([].slice.call(arguments)))
+                /*/
+                remember that the 2nd parameter of apply takes in an array. 
+                So we are concatenating (joining) the arguments from the outer
+                function with the arguments from the inner function 
+                to form 1 big array of arguments to be used when the inner function is finally
+                called.
+                /*/
+            }
+        }
+
+        function add(a, b) {
+            return a + b;
+        }
+
+        // check out some cool stuff we can do with our bind function now!
+
+        bind(add, this, 1, 11)() // 12
+        bind(add, this)(1, 11) // 12
+        bind(add, this, 1)(11) // 12
+        bind(add, this, 1)(11, 5, 6, 7, 8, 9) // 12 - the rest are ignored!
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+        var obj = {
+            firstName: "Elie",
+            sayHi: function () {
+                setTimeout(function () {
+                    console.log(this.firstName + " says hi!");
+                }.bind(this), 1000);
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                var colt = {
+                    firstName: "Colt",
+                    sayHi: function () {
+                        setTimeout(function () {
+                            console.log("Hi " + this.firstName);
+                        }, 1000)
+                    }
+                }
+        
+                colt.sayHi(); // Hi undefined, 1000 ms latter
+                /*********************************************************/
+
+        // bind use for to bind this word to fanction (bind(this))
+        var colt = {
+            firstName: "Colt",
+            sayHi: function () {
+                setTimeout(function () {
+                    console.log("Hi " + this.firstName);
+                }.bind(this), 1000)
+            }
+        }
+
+        colt.sayHi(); // Hi Colt, 1000 ms latter
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
