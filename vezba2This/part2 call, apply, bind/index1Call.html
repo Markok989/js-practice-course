@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /*
+                function firstFunction() {
+                    return "Hello";
+                }
+        
+                firstFunction();
+        */
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /*
+                var animal = {
+                    introduce: function () {
+                        return this.name + " is a " + this.type + " and say " + this.sound + "!";
+                    }
+                };
+        
+                var whiskey = {
+                    name: "Whiskey",
+                    type: "dog",
+                    sound: "woof"
+                };
+        
+                var moxie = {
+                    name: "Moxie",
+                    type: "cat",
+                    sound: "meow"
+                };
+        
+                var silja = {
+                    name: "Silja",
+                    type: "pas",
+                    sound: "aw aw"
+                };
+        
+                // set the thisArg to be the object whiskey:
+                animal.introduce.call(whiskey); // "Whiskey is a dog and says woof!"
+        
+                // set the thisArg to be the object moxie:
+                animal.introduce.call(moxie); // "Moxie is a cat and says meow!"
+        
+                animal.introduce.call(silja);
+        */
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /*
+                var person1 = {
+                    name: "Matt",
+                    greet: function (otherName) {
+                        return "Hi, " + otherName + ", I'm " + this.name + ". Nice to meet you!";
+                    }
+                }
+        
+                var person2 = {
+                    name: "Tim"
+                }
+        
+                person1.greet(person2.name); // "Hi Tim, I'm Matt. Nice to meet you!
+                person2.greet(person1.name); // Uncaught TypeError: person2.greet is not a function
+                person1.greet.call(person2); // "Hi, undefined, I'm Tim. Nice to meet you!"
+                person1.greet.call(person2, person1.name); // "Hi, Matt, I'm Tim. Nice to meet you!"
+        */
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function sumArgumentsIncorrectly() {
+            return arguments.reduce(function (acc, next) {
+                return acc + next;
+            }, 0);
+        }
+
+        // this throws a type error because the arguments "array-like object"
+        // does not contain the method reduce!
+        sumArgumentsIncorrectly(1, 2, 3, 4, 5); //   Uncaught TypeError: arguments.reduce is not a function at sumArgumentsIncorrectly 
+
+
+
+        function sumArgumentsCorrectly() {
+            // we are going to use the slice method which makes copies of arrays, 
+            // but instead of making a copy of [],
+            // we will use the arguments array as the context that we want slice to be called in.
+            // We can immediately attach reduce and we are good to go!
+            return [].slice.call(arguments).reduce(function (acc, next) {
+                return acc + next;
+            }, 0)
+        }
+
+        sumArgumentsCorrectly(1, 2, 3, 4, 5); // 15
+
+    </script>
+
+</body>
+
+</html>
