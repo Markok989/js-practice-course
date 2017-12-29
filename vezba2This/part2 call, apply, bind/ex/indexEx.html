@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exercises</title>
+</head>
+
+<body>
+
+    <script>
+
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                var data = this;
+                console.log(data);
+                // CONSOLE:
+                //Window {postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …}
+        
+                ///////////////////////////////////////////////////////////////////////////////
+        /*
+                function logThis() {
+                    return this;
+                }
+        
+                logThis();
+                // Returns Windows becouse this is not defined, 
+                // and default path for 'this' is nearst parent component and that is golobal Window 
+        
+                ///////////////////////////////////////////////////////////////////////////////
+        /*
+                var instructor = {
+                    firstName: 'Tim',
+                    sayHi: function () {
+                        console.log("Hello! " + this.firstName);
+                    }
+                }
+        
+                instructor.sayHi() // Hello! Tim
+                /*
+                in variable instructor is defined next code:
+                    - firstName - with value string 'Tim',
+                    - sayHi - here first is defined anonymous function with next line of code:
+                        - log : "Hello" + this.firstName, in this case word "this" goes to nearst
+                          parent component and that is instructor , in other words it looks like 
+                          this insturctor.firstName
+                */
+
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                var instructor = {
+                    firstName: 'Tim',
+                    info: {
+                        catOwner: true,
+                        boatOwner: true
+                    },
+                    displayInfo: function () {
+                        console.log("Cat owner? " + this.catOwner ); //this.info.catOwner
+                    }
+                }
+        
+                instructor.displayInfo() // Cat owner? undefined
+                // The result is like this becouse property displayInfo is outside of info property,
+                // so this word can reach catOwner,
+                // solution is this.info.catOwner
+        */
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                var instructor = {
+                    firstName: 'Tim',
+                    info: {
+                        catOwner: true,
+                        boatOwner: true,
+                        displayLocation: function () {
+                            return this.data.location;
+                        },
+                        data: {
+                            location: "Oakland"
+                        }
+                    },
+                }
+        
+                instructor.info.displayLocation() // "Oakland"
+                /*
+                in this case log shows "Oakland" location,
+                the reason is good path:
+                    - first goes in instrucotr, then goes in info property,
+                      then in displayLocation property with anonymous function,
+                      in function path is correct defined this.data.location;
+                */
+        ///////////////////////////////////////////////////////////////////////////////
+        /*
+                var instructor = {
+                    firstName: 'Tim',
+                    info: {
+                        catOwner: true,
+                        boatOwner: true,
+                        displayLocation: function () {
+                            return this.data.location;
+                        },
+                        data: {
+                            location: "Oakland",
+                            logLocation: this.displayLocation
+                            /*
+                                function () {
+                                    return instructor.info.displayLocation
+                                }
+                            }
+                        },
+                    }   
+
+                instructor.info.data.logLocation()  // Why might we be getting an error here?
+        */
+        ///////////////////////////////////////////////////////////////////////////////
+
+
+        var instructor = {
+            firstName: 'Tim',
+            info: {
+                catOwner: true,
+                boatOwner: true,
+                displayLocation: function () {
+                    return this.location
+                },
+                data: {
+                    location: "Oakland",
+                    logLocation: function () {
+                        return instructor.info.displayLocation.call(this)
+                    }
+                }
+            },
+        }
+
+        instructor.info.data.logLocation() // "Oakland"
+        /*
+        solution:
+            - first thing first, logLocation has wrong path,
+              insted this.displayLocation, we can use anonymous function and
+              return correct path with 'call' . With that we connect elements
+        */
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+    </script>
+</body>
+
+</html>
