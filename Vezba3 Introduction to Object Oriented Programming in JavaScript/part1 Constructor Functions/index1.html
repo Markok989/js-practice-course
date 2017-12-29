@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        var car1 = {
+            make: "Honda",
+            model: "Accord",
+            year: 2002
+        }
+        var car2 = {
+            make: "Mazda",
+            model: "6",
+            year: 2008
+        }
+        var car3 = {
+            make: "BMW",
+            model: "7 Series",
+            year: 2012
+        }
+        var car4 = {
+            make: "Tesla",
+            model: "Model X",
+            year: 2016
+        }
+
+        function Car(make, model, year) {
+            this.make = make;
+            this.model = model;
+            this.year = year;
+        }
+
+        var probe = new Car('Ford', 'Probe', 1993);
+        var cmax = new Car('Ford', 'C-Max', 2014);
+
+        probe.make;  // Returns "Ford"
+        cmax.year;   // Returns 2014
+
+        function Car(make, model, year) {
+            this.make = make;
+            this.model = model;
+            this.year = year;
+        }
+
+        var car = new Car("Buatti", "Chiron", 2017);
+        car.__proto__ === Car.prototype // true
+
+
+        function Vehicle(make, model, year) {
+            this.make = make;
+            this.model = model;
+            this.year = year;
+        }
+
+        function Motorcycle(make, model, year, motorcycleType) {
+            Vehicle.call(this, make, model, year)
+            this.motorcycleType = motorcycleType;
+        }
+
+        var moto = new Motorcycle("Kawasaki", "Ninja 500", 2006, "Sports")
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        // constructor function
+
+        function House(bedrooms, bathrooms, numSqft) {
+            this.bathrooms = bedrooms;
+            this.bathrooms = bathrooms;
+            this.numSqft = numSqft;
+        }
+
+        var firstHouse = new House(2, 2, 1000);
+        firstHouse.bedrooms; // 2
+        firstHouse.bathrooms; // 2
+        firstHouse.numSqft; // 1000
+
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        function Dog(name, age, bark) {
+            this.name = name;
+            this.bark = bark;
+            this.bark = function () {
+                console.log(this.name + ' just barked!');
+            }
+        }
+
+        var rusty = new Dog("Rusty", 3);
+        var fido = new Dog("Fido", 1);
+
+        ///////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
