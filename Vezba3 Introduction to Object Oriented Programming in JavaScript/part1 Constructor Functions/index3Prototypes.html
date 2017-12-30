@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prototypes</title>
+</head>
+
+<body>
+
+    <script>
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        function Person(name) {
+            this.name = name;
+        }
+
+        var tim = new Person("Tim");
+        Person.prototype;
+
+        Person.prototype.sayHello = function () {
+            return "Hello, " + this.name;
+        }
+
+
+        var moxie = new Person("Moxie");
+        moxie.sayHello(); // "Hello, Moxie"
+
+        // Fact: sayHello still works for tim even though tim was created
+        // before the sayHello function was added to the prototype.
+        tim.sayHello(); // "Hello, Tim"
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        // this is the constructor function
+        function Person(name) {
+            this.name = name;
+        }
+
+        // this is an object created from the Person constructor
+        var elie = new Person("Elie");
+        var colt = new Person("Colt");
+
+        // since we used the new keyword, we have established
+        // a link between the object and the prototype property
+        // we can create that using "__proto__"
+        elie.__proto__ === Person.prototype; // true
+        colt.__proto__ === Person.prototype; // true
+
+        // The Person.prototype object also has a property
+        // called constructor which points back to the funcction
+        Person.prototype.constructor === Person; // true
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        /******************* Shared Prototype Example ***********************/
+
+        function Person(name) {
+            this.name = name;
+        }
+
+        Person.prototype.siblings = ["Haim", "David"];
+
+        var elie = new Person("Elie");
+
+        elie.siblings.push("Tamar"); // returns the new length of the array => 3
+        // The siblings array will now be ["Haim", "David", "Tamar"]
+
+        var anotherPerson = new Person("Mary");
+
+        anotherPerson.siblings.push("Leslie");
+        elie.siblings; // ["Haim", "David", "Tamar", "Leslie"]
+
+        // The prototype is shared among all objects created by that constructor function 
+        // this is the constructor function
+        function Person(name) {
+            this.name = name;
+        }
+
+        // this is an object created from the Person constructor
+        var elie = new Person("Elie");
+        var colt = new Person("Colt");
+
+        var arr = [];
+        new Array;
+        arr.push(10);
+        console.dir(arr);
+
+        arr.hasOwnProperty('length');
+
+    </script>
+
+</body>
+
+</html>
