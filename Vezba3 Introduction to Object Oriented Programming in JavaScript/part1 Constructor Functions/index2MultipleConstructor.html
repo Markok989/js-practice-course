@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Multiple</title>
+</head>
+
+<body>
+
+    <script>
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        function Car(make, model, year) {
+            this.make = make;
+            this.model = model;
+            this.year = year;
+            // we can also set properties on the keyword this
+            // that are preset values
+            this.numWheels = 4;
+        }
+
+        function Motorcycle(make, model, year) {
+            this.make = make;
+            this.model = model;
+            this.year = year;
+            this.numWheels = 2;
+        }
+
+        function Motorcycle(make, model, year) {
+            // using call
+            Car.call(this, make, model, year)
+            this.numWheels = 2;
+        }
+
+        function Motorcycle(make, model, year) {
+            // using apply //// array
+            Car.apply(this, [make, model, year])
+            this.numWheels = 2;
+        }
+
+        function Motorcycle(make, model, year) {
+            // even better using apply with arguments
+            Car.apply(this, arguments);
+            this.numWheels = 2;
+        }
+
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        // arguments expample
+        function listArguments() {
+            return arguments;
+        }
+
+        listArguments(1, 2, 3);
+
+        ///////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
