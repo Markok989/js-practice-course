@@ -91,6 +91,129 @@
 
         arr.hasOwnProperty('length');
 
+        ///////////////////////////////////////////////////////////////////////////
+
+        /******************* Constructor Function Best Practices ***********************/
+
+        function Person(name) {
+            this.name = name;
+            this.siblings = [];
+        }
+
+        var janey = new Person("Janey");
+        janey.silbings.push("Annie");
+
+        var tim = new Person("Tim");
+        tim.siblings.push("Nicole");
+        tim.siblings.push("Jeff");
+        tim.siblings.push("Greg");
+        tim.siblings; // Returns ["Nicole", "Jeff", "Greg"]
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        function Person(name) {
+            this.name = name;
+            this.sayHi = function () {
+                return "Hello, " + this.name;
+            }
+        }
+
+        function Person(name) {
+            this.name = name;
+        }
+
+        Person.prototype.sayHi = function () {
+            return "Hello, " + this.name;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        /******************* JavaScript Property Lookup ***********************/
+
+        function Automobile(make, model, year) {
+            this.make = make;
+            this.model = model;
+            if (year !== undefined) {
+                this.year = year;
+            }
+        }
+
+        Automobile.prototype.year = 2016;
+
+        var newCar = new Automobile("Ferrari", "488 Spider");
+
+        // In this case, we did not pass in a year,
+        // so it was never set in the constructor function
+        newCar.hasOwnProperty("year"); // Returns false
+
+        newCar.year; // returns 2016
+
+        var probe = new Automobile("Ford", "Probe", 1993);
+
+        probe.hasOwnProperty("year"); // returns true
+
+        probe.year; // returns 1993
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        function Person(name) {
+            this.name = name;
+            this.sayHi = function () {
+                return "Hi " + this.name;
+            }
+        }
+
+        elie = new Person("Elie");
+        elie.sayHi(); // Hi Elie
+
+        // now this code works, but it is inefficient,
+        // every time we make an object using the new keyword we have redefine this function,
+        // but its the same for everyone! Lets put it on the prototype instead!
+
+        // Better!
+        function Person(name) {
+            this.name = name;
+        }
+
+        Person.prototype.sayHi = function () {
+            return "Hi " + this.name;
+        }
+
+        elie = new Person("Elie");
+        elie.sayHi(); // Hi Elie
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        /**************** Example ***************/
+
+        function Vechicle(make, model, year) {
+            this.make = make;
+            this.model = model;
+            this.year = year;
+            this.isRunnintg = false;
+        }
+
+        Vechicle.prototype.turnOn = function () {
+            this.isRunnintg = true;
+        }
+
+        Vechicle.prototype.turnOOff = function () {
+            this.isRunnintg = false;
+        }
+        Vechicle.prototype.honk = function () {
+            if (this.isRunnintg) {
+                return "beep!";
+            }
+        }
+
+// - Every time the new keyword is used, a link between the object created and the prototype
+//   property of the constructor is established - this link can be accessed using __proto__
+// - The prototype object contains a property called constructor, which points back to the constructor function
+// - To share properties and methodes for object created by a constructor function, place them in prototype
+//   as it is the most efficient
+
+///////////////////////////////////////////////////////////////////////////
+
     </script>
 
 </body>
