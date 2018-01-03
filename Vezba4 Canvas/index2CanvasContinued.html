@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Continued</title>
+
+</head>
+
+<body>
+
+    <style>
+        #my-canvas {
+            background-color: blue;
+            height: 400px;
+            width: 400px;
+        }
+    </style>
+    <canvas id="my-canvas"></canvas>
+
+    <script>
+        /*
+                var canvas = document.getElementById('canvas')
+                canvas.width = canvas.scrollWidth;
+                canvas.height = canvas.scrollHeight;
+        
+                var ctx = canvas.getContext('2d');
+        
+                var upperLeftX = 0;
+                var upperLeftY = 0;
+                var width = 50;
+                var height = 50;
+        
+                ctx.fillRect(upperLeftX, upperLeftY, width, height);
+        
+                ctx.fillStyle = "orange";
+                ctx.fillRect(upperLeftX, upperLeftY, width, height);
+        
+                ctx.fillStyle = "red";
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(40, 40);
+                ctx.lineTo(0, 80);
+                ctx.fill();
+                ctx.closePath();
+        
+                var canvasWidth = 400;
+                var canvasHeight = 400;
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        */
+
+        var canvas = document.getElementById("my-canvas");
+        canvas.width = canvas.scrollWidth;
+        canvas.height = canvas.scrollHeight;
+        var ctx = canvas.getContext('2d');
+
+        // square
+        var square = {
+            corner: [0, 0],
+            width: 50,
+            height: 50,
+            color: "red",
+            draw: function () {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.corner[0], this.corner[1], this.width, this.height);
+            }
+        }
+
+        // path
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            square.corner[0] += 2;
+            square.corner[1] += 2;
+            square.draw();
+        }
+
+        draw();
+
+        // Drawing every 50ms = 20 draws in 1 second or 20 fps
+        var intervalId = setInterval(draw, 35);
+
+        square.corner = [50, 50];
+
+
+
+    </script>
+
+</body>
+
+</html>
