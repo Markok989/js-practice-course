@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inheritance</title>
+</head>
+
+<body>
+
+    <script>
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        function Automobile(make, model, year) {
+            this.make = make;
+            this.model = model;
+            this.year = year;
+            if (year !== undefined) {
+                this.year = year;
+            }
+        }
+
+        Automobile.prototype.year = 2016;
+        var probe = new Automobile("Ford", "Probe", 1993);
+
+        // tesd if probe has property year?
+        probe.hasOwnProperty("year"); // true
+
+        probe.year; // 1993
+
+
+
+        ///////////////////////////////////////////////////////////////////////////
+
+        var probe = new Automobile("Ford", "Probe", 1993);
+
+        // Insect the returned object in conosle,
+        // In shows us the prototype associated with the instance of Automobile
+        // You should see the constructor function and a property for year
+        probe.__proto__;
+
+        // Inspect the returned ovject in the terminal,
+        // It shows the parent prototype (Object's prototype) that is associated
+        // with the instance of Automobile
+        // You should see many properties here, including hasOwnProperty!
+        probe.__proto__.__proto__;
+
+        //Click through the returned object to see the __proto__ chain
+        console.dir(probe);
+        /*
+        return:
+                make: "Ford"
+                model: "Probe"
+                year: 1993
+        */
+        ///////////////////////////////////////////////////////////////////////////
+
+        function Parent(firstName, lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+        Parent.prototype.sayHi = function () {
+            return this.firstName + " " + this.lastName + " says hi!";
+        }
+
+        function Child(firstName, lastName) {
+            // This is how we "inherit" properties from the parent
+            Parent.apply(this, arguments);
+        }
+
+        // This is how we inherit functions
+        // (create a new prototype + reset the constructor)
+        Child.prototype = Object.create(Parent.prototype);
+        Child.prototype.constructor = Child;
+
+        var c = new Child("Bran", "Stark");
+
+        c.sayHi();
+
+        Child.prototype = Parent.prototype;
+
+        // true - this is BAD!!!
+        Child.prototype === Parent.prototype;
+
+        Child.prototype = Object.create(Parent.prototype);
+
+        // false - This is GOOD! We want these to be different
+        Child.prototype === Parent.prototype;
+
+///////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
