@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shapes Speed Game</title>
+</head>
+
+<body>
+    <style>
+        body {
+            padding-bottom: 50px;
+        }
+
+        #shapes-game {
+            border: 4px solid grey;
+            background-color: black;
+        }
+
+        .canvas-container {
+            padding: 10px;
+        }
+
+        .canvas-container,
+        #shapes-game {
+            height: 750px;
+            width: 800px;
+        }
+
+        .scores {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .legend {
+            padding-top: 15px;
+        }
+
+        .legend-contents {
+            text-align: left;
+            padding-left: 30px;
+        }
+
+        .triangle-bottomleft-red {
+            width: 0;
+            height: 0;
+            border-bottom: 50px solid red;
+            border-right: 50px solid transparent;
+        }
+
+        .triangle-bottomleft-black {
+            width: 0;
+            height: 0;
+            border-bottom: 54px solid black;
+            border-right: 58px solid transparent;
+        }
+
+        .triangle-inner-white {
+            position: relative;
+            top: 2px;
+            left: 2px;
+            width: 0;
+            height: 0;
+            border-bottom: 50px solid white;
+            border-right: 50px solid transparent;
+        }
+
+        .triangle-left {
+            width: 0;
+            height: 0;
+            border-top: 23px solid transparent;
+            border-bottom: 23px solid transparent;
+            border-right: 23px solid red;
+        }
+
+        .inner-triangle {
+            position: relative;
+            top: -20px;
+            left: 2px;
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-right: 20px solid blue;
+        }
+
+        .red-square {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+        }
+
+        .white-square {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="col-xs-10 canvas-container">
+            <canvas id="shapes-game" height="750" width="800"></canvas>
+        </div>
+        <div class="col-xs-2 scores">
+            <h1>Score</h1>
+            <h3>
+                <span id="score-val">0</span>
+            </h3>
+            <h1>Timer</h1>
+            <h3>
+                <span id="time-remaining">30</span>
+            </h3>
+            <div class="legend">
+                <h1>Legend</h1>
+                <div class="legend-contents">
+                    <div class="triangle-bottomleft-red">
+                    </div>
+                    <h4>Left</h4>
+                    <div class="white-square">
+                    </div>
+                    <h4>Right</h4>
+                    <div class="triangle-bottomleft-black">
+                        <div class="triangle-inner-white"></div>
+                    </div>
+                    <h4>Up</h4>
+                    <div class="red-square">
+                    </div>
+                    <h4>Down</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        window.addEventListener("load", function () {
+
+            function clear(ctx, width, heigt) {
+                ctx.clearRect(0, 0, width, heigt);
+            }
+
+            function drawRandomShape(ctx, width, height) {
+                // Get a random color.  Either red or white
+                var color = ["red", "white"][Math.floor(Math.random() * 2)];
+
+                const size = 100;
+                // Starting path for triangles and squares
+                var trianglePath = [[0, 0], [0, size], [size, size]];
+                var squarePath = trianglePath.slice();
+                squarePath.push([size, 0]);
+
+                // Getting a shape, either triangle or square
+                var index = Math.floor(Math.random() * 2)
+                var shapePath = [trianglePath, squarePath][index];
+
+
+                var translateX = Math.floor(Math.random() * (width - size));
+                var translateY = Math.floor(Math.random() * (height - size));
+
+
+                ctx.beginPath();
+                ctx.fillStyle = color;
+                var p0 = shapePath[0];
+                ctx.moveTo(p0[0] + translateX, p0[1] + translateY);
+                for (var i = 1; i < shapePath.length; i++) {
+                    var p = shapePath[i];
+                    ctx.lineTo(p[0] + translateX, p[1] + translateY);
+                }
+                ctx.fill();
+
+                return color + index;
+            }
+
+            function drawGameStartText(ctx, width, height, score) {
+                ctx.font = "38px serif";
+                ctx.fillStyle = "white"
+                ctx.fillText("Press the space bar to start a new game", width / 2 - 275, height / 2);
+                if (score !== undefined) {
+                    ctx.font = "30px serif";
+                    ctx.fillText(`Score: ${score}`, width / 2 - 50, height / 2 + 50);
+                }
+            }
+
+            function restartGame(ctx, width, height) {
+                seconds = 30;
+                scoreSpan.innerHTML = 0;
+            }
+
+            var expectedKey = undefined;
+
+            var canvas = document.getElementById("shapes-game"),
+                height = canvas.scrollHeight,
+                width = canvas.scrollWidth,
+                gameOn = false,
+                ctx = canvas.getContext('2d'),
+                // white triangle = up, red square = down,
+                // red triangle = left, white square = right
+                expectedKeysMap = { white0: 38, red1: 40, red0: 37, white1: 39 },
+                timerSpan = document.getElementById("time-remaining"),
+                scoreSpan = document.getElementById("score-val"),
+                seconds = 3,
+                intervalId;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            document.addEventListener("keyup", function () {
+                if (!gameOn && event.which === 32) {
+                    gameOn = true;
+                    restartGame();
+                    clear(ctx, width, height);
+                    expectedKey = expectedKeysMap[drawRandomShape(ctx, width, height)];
+                    intervalId = setInterval(function () {
+                        seconds--;
+                        if (seconds === 0) {
+                            clearInterval(intervalId);
+                            gameOn = false;
+                            var score = +scoreSpan.innerHTML;
+                            restartGame();
+                            clear(ctx, width, height);
+                            drawGameStartText(ctx, width, height, score);
+                        }
+                        timerSpan.innerHTML = seconds;
+                    }, 1000);
+                } else if (gameOn && Object.values(expectedKeysMap).includes(event.which)) {
+                    if (expectedKey === event.which) {
+                        scoreSpan.innerHTML = Number(scoreSpan.innerHTML) + 1;
+                        console.log("Got it!");
+                    } else {
+                        scoreSpan.innerHTML = Number(scoreSpan.innerHTML) - 1;
+                    }
+                    clear(ctx, width, height);
+                    expectedKey = expectedKeysMap[drawRandomShape(ctx, width, height)];
+                }
+            });
+            drawGameStartText(ctx, width, height);
+        });
+
+    </script>
+</body>
+
+</html>
