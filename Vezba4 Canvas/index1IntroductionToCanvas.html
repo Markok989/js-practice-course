@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Introduction to Canvas</title>
+</head>
+
+<body>
+    <style>
+        #my-canvas {
+            background-color: blue;
+            height: 400px;
+            width: 400px;
+        }
+    </style>
+    <canvas id="my-canvas"></canvas>
+    <script>
+
+        var canvas = document.getElementById("my-canvas");
+        // console.log("width: ", canvas.width, "height: ", canvas.height);
+        canvas.width = canvas.scrollWidth;
+        canvas.height = canvas.scrollHeight;
+
+    </script>
+</body>
+
+</html>
