@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Default Parameters, Rest and Spread</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /***************** Default parameters *****************/
+
+        function add(a, b) {
+            a = a || 12;
+            b = b || 13;
+            return a + b;
+        }
+
+        add() // 25
+        add(0) // 25 
+        add(0, 0) // 25
+
+        // - console show same result becouse value of a and b are defined in function ,
+        //   not as function's parameter
+
+
+
+        // NEW
+        function add(a = 12, b = 13) {
+            return a + b;
+        }
+
+        add() // 25 
+        add(0) // 13
+        add(10, 10) // 20
+
+        // - here a and be are defined as function's parameter ,
+        //   because we can have an effect on change the value for a and b
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /***************** Rest / Spread *****************/
+        // Rest
+
+        function data(a, b, ...c) {
+            console.log(a, b, c);
+        }
+
+        function data1(a, b, c, ...d) {
+            console.log(a, b, c, d);
+        }
+
+        data(1, 2, 3, 4, 5); // 1 2 (3) [3, 4, 5]
+        data1(1, 2, 3, 4, 5); // 1 2 3 (2) [4, 5]
+
+
+
+        function checkArguments() {
+            return Array.isArray(arguments)
+        }
+
+        function checkArgumentsES2015(...args) {
+            return Array.isArray(args);
+        }
+
+        checkArguments(1, 2, 3); // false
+        checkArgumentsES2015(1, 2, 3); // true
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        function multiply() {
+            let product = 1;
+            for (let i = 0; i < arguments.length; i++) {
+                product *= arguments[i];
+            }
+            return product;
+        }
+
+        function multiplyES2015(...nums) {
+            return nums.reduce((product, num) => product * num, 1);
+        }
+
+        multiply(1, 2, 3, 4); // 24
+        multiplyES2015(1, 2, 3, 4); // 24
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        // Spread
+
+        var arr = [1, 2, 3, 4];
+        function addFourNumbers(a, b, c, d) {
+            return a + b + c + d;
+        }
+
+        addFourNumbers(...arr); // 10 (1+2+3+4=10)
+
+
+        function addThree(a, b, c) {
+            return a + b + c;
+        }
+
+        function addThreeArgs() {
+            return addThree(...arguments);
+        }
+
+        addThree(1, 2, 3); // 6
+        addThreeArgs(1, 2, 3); // 6
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
