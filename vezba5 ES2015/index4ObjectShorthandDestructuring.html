@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Object Shorthand and Destructuring</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        var obj = {
+            firstName: "Elie",
+            sayHi: function () {
+                return "Hello from ES!";
+            },
+            sayBye() {
+                return "Bye from ES2015!";
+            }
+        }
+
+        var person = "Elie";
+        var es5Object = { person: person };
+
+        es5Object; // {person: "Elie"}
+
+        var es2015Object = { person };
+
+        es2015Object; // {person: "Elie"}
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        var o1 = {
+            sayYo: function () {
+                console.log("Yo!");
+            }
+        };
+
+        o1; // {sayYo: ƒ}
+
+        var o2 = {
+            sayYo() {
+                console.log("Yo!");
+            }
+        }
+
+        o2; // { sayYo: ƒ }
+
+        //////////////////////////////////////////////////////////////////////////////
+        /*
+                var obj = {
+                    a: 1,
+                    b: 2,
+                    c: 3
+                };
+        
+                var { a, b, c } = obj;
+        
+                a; // 1
+                b; // 2
+                c; // 3
+        
+        */
+
+        /*
+                var arr = [1, 2, 3, 4];
+                var [a, b, c, d] = arr;
+        
+                a; // 1
+                b; // 2
+                c; // 3
+                d; // 4
+        
+                var [first, second] = [10, 20];
+        
+                first; // 10
+                second; // 20
+                */
+
+        var [a, b] = [1, 2];
+        a; // 1
+        b; // 2
+
+
+        [a, b] = [b, a];
+        a; // 2
+        b; // 1
+
+//////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
