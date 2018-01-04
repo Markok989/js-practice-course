@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Arrow Functions</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /*
+        - If the arrow function is all on 1 line - an implicit return is added (you do not need
+        the keyword return),
+        - If the arrow function is on more then one line, {} must be used (just like  regular function),
+        - if the arrow function takes 1 argument, you don't need to wrap the argument in
+          parentheses (though for multiple arguments, you do),
+        - Arrow functions are always anonymous 
+        */
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        // basic example
+        var add = (a, b) => a + b;
+        var shout = str => str.toUpperCase();
+        var multilineArrowFunction = a => {
+            let b = a * a;
+            return b + a;
+        }
+
+        // callback example
+        var arr = [1, 2, 3, 4];
+
+        // function keyword syntax
+        arr.map(function (val) {
+            return val * 2;
+        }) // result : (4) [2, 4, 6, 8]
+
+        // arrow function syntax
+        arr.map(val => val * 2) // result:  (4) [2, 4, 6, 8]
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        var obj = {
+            firstName: "Elie",
+            sayHi: function () {
+                setTimeout(function () {
+                    console.log('Hi, I am ' + this.firstName);
+                }, 1000)
+            }
+        }
+
+        obj.sayHi(); // Hi, I am undefined
+
+
+
+        // arrow function keeps its value from the enclosing context
+        var obj2015 = {
+            firstName: 'Elie',
+            sayHi: function () {
+                setTimeout(() => {
+                    console.log(`Hi, I am ${this.firstName}`);
+                }, 1000)
+            }
+        }
+
+        obj2015.sayHi(); // Hi, I am Elie
+
+//////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
