@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Asynchronous JavaScript Review</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+        /*
+                $.getJSON("http://www.omdbapi.com/?t=titanic", function (data) {
+                    console.log("Cool, here's some data: ", data);
+                }, function (error) {
+                    console.log("Oops something went wrong!", data);
+                })
+        */
+
+        $.getJSON("http://www.omdbapi.com/?t=titanic", function (data) {
+            console.log("Titanic - ", data);
+            $.getJSON("http://www.omdbapi.com/?t=ghostbusters", function (data) {
+                console.log("Ghostbusters -", data);
+                $.getJSON("http://www.omdbapi.com/?t=sharknado", function (data) {
+                    console.log("Sharknado -", data);
+                }, function (error) {
+                    console.log("Oops something went wrong!", data);
+                })
+            }, function (error) {
+                console.log("Oops something went wrong!", data);
+            })
+        }, function (error) {
+            console.log("Oops something went wrong!", data);
+        });
+
+//////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>

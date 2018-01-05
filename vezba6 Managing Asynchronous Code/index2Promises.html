@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promises</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /*
+        Promises are almost always preferred over callbacks when managing asynchronous code.
+        Promises make use of callback functions, but help avoid deep nesting of callbacks and improve 
+        readability. Another advantage of promises is that they are immutable, so once a promise is 
+        done, you can not accidentally call it again (something you can do accidentally with callbacks).
+        */
+
+        /*
+                function firstPromise() {
+                    return new Promise(function (resolve, reject) {
+                        if (Math.random() > .5) {
+                            resolve("You made it!");
+                        } else {
+                            reject("Your number was too low! Try again");
+                        }
+                    })
+                }
+        
+                firstPromise().then(function (data) {
+                    console.log(data);
+                }).catch(function (error) {
+                    console.log(error);
+                })
+        */
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /*
+                function getMovieData(title) {
+                    return $.getJSON(`http://www.omdbapi.com/?t=${title}`);
+                }
+        
+                getMovieData("Titanic").then(function (data) {
+                    console.log("Here is our movie data!", data)
+                }).catch(function (err) {
+                    console.log("Oops, something went wrong", err)
+                })
+        */
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /*
+                function getMovieData(title) {
+                    return $.getJSON(`http://www.omdbapi.com/?t=${title}`);
+                }
+        
+                Promise.all([getMovieData("Titanic"), getMovieData("Ghostbusters"), getMovieData("Sharknado")]).then(function (data) {
+                    console.log(data);
+                }).catch(function (err) {
+                    console.log("Oops, something went wrong!");
+                })
+        */
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /*
+                $.getJSON("http://www.omdbapi.com/?t=titanic", function (data) {
+                    console.log("Titanic - ", data);
+                    $.getJSON("http://www.omdbapi.com/?t=ghostbusters", function (data) {
+                        console.log("Ghostbusters -", data);
+                        $.getJSON("http://www.omdbapi.com/?t=sharknado", function (data) {
+                            console.log("Sharknado -", data);
+                        }, function (error) {
+                            console.log("Oops something went wrong!", data);
+                        })
+                    }, function (error) {
+                        console.log("Oops something went wrong!", data);
+                    })
+                }, function (error) {
+                    console.log("Oops something went wrong!", data);
+                });
+        */
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        function first() {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    console.log("first is done");
+                    resolve(10);
+                }, 500)
+            })
+        }
+
+        function second(previousPromiseData) {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    console.log("second is done and we just got", previousPromiseData);
+                    resolve(previousPromiseData + 10);
+                }, 500)
+            })
+        }
+
+        function third(previousPromiseData) {
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    console.log("third is done and the total is", previousPromiseData);
+                    resolve();
+                }, 500)
+            })
+        }
+
+        first()
+            .then(second)
+            .then(third);
+
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>

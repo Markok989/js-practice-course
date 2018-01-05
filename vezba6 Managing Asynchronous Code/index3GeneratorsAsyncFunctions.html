@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generators and Async Functions</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+/*
+
+        function* firstGenerator() {
+            for (var i = 0; i < 5; i++) {
+                yield i;
+            }
+        }
+
+        var gen = firstGenerator();
+        gen.next(); // {value: 0, done: false}
+        gen.next(); // {value: 1, done: false}
+        gen.next(); // {value: 2, done: false}
+        gen.next(); // {value: 3, done: false}
+        gen.next(); // {value: 4, done: false}
+        gen.next(); // {value: 5, done: true}
+
+        // we can also iterate over a generator using a for..of loop
+        for (var data of firstGenerator()) {
+            console.log(data);
+        }
+
+        // 0 
+        // 1
+        // 2
+        // 3
+        // 4
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        function getMovieData(title) {
+            $.getJSON(`http://www.omdbapi.com/?t=${title}`, function (data) {
+                // we could also do gen.next(data) to make this function run all three at once
+                console.log(data);
+            }, function (err) {
+                console.log(err);
+            })
+        }
+
+        function* displayResults() {
+            var result1 = yield getMovieData("Titanic");
+            console.log(result1);
+            var result2 = yield getMovieData("Ghostbusters");
+            console.log(result2);
+            var result3 = yield getMovieData("Sharknado");
+            console.log(result3);
+        }
+
+        var gen = displayResults();
+        // gen.next(); // Titanic
+        // gen.next(); // Ghostbusters
+        // gen.next(); // Sharknado
+
+        // if we want to print all without using next()
+        for (var movieData of gen) {
+            console.log(movieData);
+        }
+*/
+//////////////////////////////////////////////////////////////////////////////
+
+/********************* ES2017 Async Functions *********************/
+
+//////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

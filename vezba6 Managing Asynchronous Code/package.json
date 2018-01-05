@@ -1,0 +1,9 @@
+{
+  "name": "",
+  "version": "",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "request": "^2.83.0"
+  }
+}
