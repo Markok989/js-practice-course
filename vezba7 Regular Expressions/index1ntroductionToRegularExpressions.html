@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Introduction to Regular Expressions</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        var pattern = /Elie/;
+
+        var str = "My name is Elie, is your name Elie?";
+        var matches = str.match(/Elie/);
+        matches;
+        // ["Elie", index: 11, input: "My name is Elie, is your name Elie?"]0: "Elie"index: 11input: "My name is Elie, is your name Elie?"length: 1__proto__: Array(0)
+
+        var str = "My name is Elie, is your name Elie?";
+        var matches = str.match(/Elie/g);
+        matches; // (2) ["Elie", "Elie"]
+
+        var str = "My name is Elie, is your name Elie?";
+        var matches = str.match(/Elie/gi);
+        matches; // (2) ["Elie", "Elie"]
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        var str = "The cat in the hat deserves a pat";
+        var matches = str.match(/.at/g);
+        matches; // (3) ["cat", "hat", "pat"]
+
+        var str = "shape tape grape";
+        var matches = str.match(/..a.e/gi);
+        matches; // (3) ["shape", " tape", "grape"]
+
+        var numbers = '123 321 121 111 428 888';
+        var matches = numbers.match(/.2./g);
+        matches; // (4) ["123", "321", "121", "428"]
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /*************** Character sets *******************/
+
+        var str = 'amen bean cups deer pear';
+        var matches = str.match(/[a-d].../g);
+        matches; // (4) ["amen", "bean", "cups", "deer"]
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        /*************** Greedy matching *******************/
+
+        var match1 = "cookies".match(/cookies?/); // ["cookies", index: 0, input: "cookies"]
+        var match2 = "cookie".match(/cookies?/); // ["cookie", index: 0, input: "cookie"]
+        var match3 = "cookies".match(/cookiess?/); // ["cookies", index: 0, input: "cookies"]
+        var match4 = "cookies".match(/cookiesss?/); // null
+
+        var match1 = "cookiessssssssss".match(/cookies+/) // ["cookiessssssssss"]
+        var match2 = "cookies".match(/cookies+/) // ['cookies']
+        var match3 = "cookie".match(/cookies+/) // null
+
+        var match1 = "cookiessssssssss".match(/cookies*/) // ["cookiessssssssss"]
+        var match2 = "cookies".match(/cookies*/) // ['cookies']
+        var match3 = "cookie".match(/cookies*/) // ['cookie']
+
+
+        // match anything that starts with, ends with or has the letter e inside of it
+
+        "elie".match(/.*e.*/gi); // ['elie']
+        "elephants are everywhere".match(/.*e.*/gi); // ['elephants are everywhere']
+        "can you think of a string containing almost all non-consonants?".match(/.*e.*/g); // null
+
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** Character ranges *******************/
+
+        // only match when there is more than 1 'l'
+        var str = "helo hello hellllo hellllllllllo"
+        str.match(/hel{2,}o/g) // ["hello", "hellllo", "hellllllllllo"]
+
+
+        // count how many words have two or more o's or two d's in the middle 
+        var str = "noodle caboodle testing fiddle person diddle muddle booooombox"
+        str.match(/[od]{2,}/g).length // 6
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** Escaping character *******************/
+
+        // let's try to find the number of periods in a sentence.
+        var str = "Hello. I'm Elie."
+        str.match(/./g) // ["H", "e", "l", "l", "o", ".", " ", "I", "'", "m", " ", "E", "l", "i", "e", "."] - think about why this might happen?
+        // it's separate the string
+
+        // let's try to find the number of periods in a sentence.
+        var str = "Hello. I'm Elie."
+        str.match(/\./g) // [".", "."] 
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** replace, search,and split *******************/
+
+        // replace
+        var str = "awesome";
+        str.replace('e', 'z'); // "awzsome" - it does not get the last e
+
+        var str = "awesome";
+        str.replace(/e/g, 'z'); // "awzsomz"
+
+        // using a callback
+        var str = "awesome";
+        str.replace(/[aeiou]/g, function (match) {
+            return match.toUpperCase();
+        }); // "AwEsOmE"
+
+
+        // search
+        var str = "awesome"
+        str.search('awe') // 0
+        str.search('z') // -1
+
+        // using a regular expression
+        var str = "awesome"
+        str.search(/..e/) // 0
+        str.search(/p/) // -1
+
+
+        // split
+        var str = "My name is elie"
+        str.split(/e/g); // ["My nam", " is ", "li", ""]
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** Using the RegExp constructor *******************/
+
+        function countLetters(word, letter) {
+            var matches = word.match(letter)
+            if (matches) {
+                return matches.length
+            }
+            return 0;
+        }
+
+        countLetters('awesome', 'e'); // 1
+        // becaouse we didn't use global(g) flag we get result 1
+
+        function countLetters(word, letter) {
+            var regex = new RegExp(letter, 'gi')
+            var matches = word.match(regex)
+            if (matches) {
+                return matches.length
+            }
+            return 0;
+        }
+
+        countLetters('awesome', 'e') // 2
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
