@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** Pure Functions **********************/
+
+        var arr = [2, 4, 6];
+        function doubleValues(arr) {
+            for (var i = 0; i < arr.length; i++) {
+                arr[i] = arr[i] * 2;
+            }
+        }
+
+        doubleValues(arr);
+        arr; // (3) [4, 8, 12]
+
+        doubleValues(arr);
+        arr; // (3) [8, 16, 24]
+
+        doubleValues(arr);
+        arr; // (3) [16, 32, 48]
+
+        // this function is impure becouse there is a side effect: we are mutating or changing 
+        // the arr variable, and we call this function again, we will fet a different value.
+        /*_____________________________________________________________________________________*/
+
+        var arr = [2, 4, 6];
+        function DoubleValues(arr) {
+            return arr.map(function (val) {
+                return val * 2;
+            });
+        }
+
+        doubleValues(arr); // (3) [4, 8, 12]
+        doubleValues(arr); // (3) [4, 8, 12]
+        doubleValues(arr); // (3) [4, 8, 12]
+        doubleValues(arr); // (3) [4, 8, 12]
+
+        // This function is pure because there is no side effect. 
+        doubleValues(doubleValues(arr)); // for for double result (3) [8, 16, 24]
+        /*_____________________________________________________________________________________*/
+
+        var start = {};
+        function addNameToObject(obj, val) {
+            obj.name = val;
+            return obj;
+        }
+        // This function is impure because there is a side effect, we are mutating or changing the start variable
+
+        function addNumberTOObject(obj, val) {
+            var newObj = { name: val };
+            return Object.assign({}, obj, newObj);
+        }
+        // This function is pure becaouse there is a not side effect and we are not mutating or changing the start variable.
+        /*_____________________________________________________________________________________*/
+
+        var arr = [1, 2, 3, 4];
+        function addToArr(arr, val) {
+            var newArr = arr.concat(val);
+            return newArr;
+        }
+        arr;// (4) [1, 2, 3, 4]
+        addToArr(arr, 5);// (5) [1, 2, 3, 4, 5]
+        arr;// (4) [1, 2, 3, 4]
+        addToArr(arr, 8); // (5)[1, 2, 3, 4, 8]
+        // This function is pure because there is a not side effect and we are notmutating or changing the arr variable.
+        // If we call this function again, we will get a different value!
+        /*_____________________________________________________________________________________*/
+
+        var startCountingFrom = (function (num) {
+
+            var count = 0;
+
+            return function (num) {
+                count++;
+                return count + num;
+            }
+
+        })();
+
+        startCountingFrom(0); // 0
+        startCountingFrom(0); // 1
+        startCountingFrom(0); // 2
+        // This function is also impure.Even though it's not mutating any variables in the global scope, 
+        // it doesn't provide the same output given the same input.
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** Closures **********************/
+
+        function outer() {
+            var num = 10;
+            return function inner(newNum) {
+                // the inner function makes use of num
+                // which was defined in the outer function 
+                // and which has returned by the time inner makes use of it
+                return num + newNum;
+            }
+        }
+        outer()(5); // 15
+        outer()(10); // 20
+        outer(10)(); // NaN - why is this?
+        // - because nmber is in outer function
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** Currying **********************/
+
+        function simpleCurry(fn, ...outerArgs) {
+            return function (...innerArgs) {
+                return fn.apply(this, outerArgs.concat(innerArgs));
+            }
+        }
+
+        function add(a, b) {
+            return a + b;
+        }
+
+        var a1 = simpleCurry(add, 2);
+        a1(10); // 12
+        /*_____________________________________________________________________________________*/
+
+        function complexCurry(fn) {
+            return function f1(...f1innerArgs) {
+                if (f1innerArgs.length >= fn.length) {
+                    return fn.apply(this, f1innerArgs);
+                } else {
+                    return function f2(...f2innerArgs) {
+                        return f1.apply(this, f1innerArgs.concat(f2innerArgs));
+                    }
+                }
+            };
+        }
+        complexCurry(add)()()()(2)()()()(4); // 6
+
+        //////////////////////////////////////////////////////////////////////////////
+
+
+        /*************** Composition **********************/
+
+        function convert(str) {
+            return str.toUpperCase().split('').filter(function (val) {
+                return val.match(/[AEIOU]/);
+            }).join(":")
+        }
+
+        convert("hello") // "E:O"
+
+
+        function compose(...functions) {
+            return function (start) {
+                return functions.reduceRight(function (acc, next) {
+                    return next(acc);
+                }, start);
+            }
+        }
+
+
+        function complexCurry(fn) {
+            return function f1(...f1innerArgs) {
+                if (f1innerArgs.length >= fn.length) {
+                    return fn.apply(this, f1innerArgs);
+                } else {
+                    return function f2(...f2innerArgs) {
+                        return f1.apply(this, f1innerArgs.concat(f2innerArgs));
+                    }
+                }
+            };
+        }
+
+
+        var join = complexCurry(function (str, arr) {
+            return arr.join(str);
+        })
+
+        var filter = complexCurry(function (fn, arr) {
+            return arr.filter(fn);
+        })
+
+        var isVowel = complexCurry(function (char) {
+            return char.match(/[AEIOU]/);
+        })
+
+        var split = complexCurry(function (delimiter, str) {
+            return str.split(delimiter);
+        })
+
+        var toUpperCase = complexCurry(function (str) {
+            return str.toUpperCase();
+        })
+
+        var convertLetters = compose(join(':'), filter(isVowel), split(''), toUpperCase());
+
+        console.log(convertLetters('This is some pretty crazy stuff')); // I:I:O:E:E:A:U
+
+
+
+        function sequence(...functions) {
+            return function (start) {
+                return functions.reduce(function (acc, next) {
+                    return next(acc);
+                }, start);
+            }
+        }
+
+
+        var convertLetters = sequence(toUpperCase(), split(''), filter(isVowel), join(':'));
+
+        console.log(convertLetters('This is some pretty crazy stuff')); // I:I:O:E:E:A:U
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+    </script>
+
+</body>
+
+</html>
